@@ -1,7 +1,10 @@
+_debug=False
+_muti=False
+
 import os
 import json
+import random
 import requests
-from random import choice as rd
 from urllib.parse import quote_from_bytes
 
 def bencode(x:all)->bytes:
@@ -14,25 +17,43 @@ def bencode(x:all)->bytes:
 def urlencode(s:all)->str:
 	return quote_from_bytes(bencode(s))
 
-pool=list()
-_port=0
+def rd(l):
+	return random.choice(list(l))
+
+pool=set()
+pool_noconnect=set()
+pool_limit=set()
+_port=-1
 def gt(u):
-	global _port
+	
+	if not _muti:
+		global _port
+	else:
+		_port=rd(pool)
+
 	flg=True
 	while flg:
 		proxies={'http':'http://127.0.0.1:'+str(_port),'https':'http://127.0.0.1:'+str(_port)}
 		try:
 			res=requests.get(u,proxies=proxies).content
 			if b'https://docs.github.com/rest/overview/resources-in-the-rest-api' in res:
-				# _port=rd(pool)
-				_port=input('new port (rate limit):')
+				print('ERROR:rate limit (port',_port)
+				if _debug:
+					_port=input('new port: ')
+				else:
+					pool.discard(_port)
+					pool_limit.add(_port)
+					_port=rd(pool)
 			else:
 				flg=False
 		except:
-			# pool.remove(_port)
-			# print('Port '+str(_port)+' cannot work!')
-			# _port=rd(pool)
-			_port=input('new port (no connection):')
+			print('ERROR: noconnection (port',_port)
+			if _debug:
+				_port=input('new port: ')
+			else:
+				pool.discard(_port)
+				pool_noconnect.add(_port)
+				_port=rd(pool)
 	return res
 
 false=False
@@ -163,6 +184,6 @@ def creep_follow(name:str='userElaina')->tuple:
 
 pool=[23301+(i<<1) for i in range(10)]
 _port=pool[0]
-# print(creep_repo())
-# print(creep_star())
+print(creep_repo())
+print(creep_star())
 print(creep_follow())
