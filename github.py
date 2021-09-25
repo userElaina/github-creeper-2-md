@@ -80,7 +80,7 @@ def creep_repo(name:str='userElaina')->tuple:
 			else:
 				l_u.append(s)
 	
-	p=os.path.join(os.path.dirname(__file__),name+'-repo.md')
+	p=os.path.join(os.getcwd(),name+'-repo.md')
 	open(p,'wb')
 	f=open(p,'ab')
 
@@ -106,7 +106,7 @@ def creep_star(name:str='userElaina')->tuple:
 			s='['+i['full_name']+']('+i['html_url']+'): '+i['description']
 			l_star.append(s)
 	
-	p=os.path.join(os.path.dirname(__file__),name+'-star.md')
+	p=os.path.join(os.getcwd(),name+'-star.md')
 	open(p,'wb')
 	f=open(p,'ab')
 
@@ -172,7 +172,7 @@ def creep_follow(name:str='userElaina')->tuple:
 
 			l_follow.append(l_user)
 
-	p=os.path.join(os.path.dirname(__file__),name+'-follow.md')
+	p=os.path.join(os.getcwd(),name+'-follow.md')
 	open(p,'wb')
 	f=open(p,'ab')
 
@@ -183,7 +183,7 @@ def creep_follow(name:str='userElaina')->tuple:
 	return len(l_follow),
 
 pool=[23301+(i<<1) for i in range(10)]
-_port=pool[0]
+_port=18081
 print(creep_repo())
 print(creep_star())
-print(creep_follow())
+# print(creep_follow())
