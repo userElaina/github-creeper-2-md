@@ -183,7 +183,7 @@ def creep_follow(name:str='userElaina')->tuple:
 	return len(l_follow),
 
 pool=[23301+(i<<1) for i in range(10)]
-_port=18081
+_port=pool[0]
 print(creep_repo())
 print(creep_star())
-# print(creep_follow())
+print(creep_follow())
