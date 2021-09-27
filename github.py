@@ -1,4 +1,4 @@
-_debug=False
+_debug=True
 _muti=False
 
 import os
@@ -79,17 +79,17 @@ def creep_repo(name:str='userElaina')->tuple:
 				l_archive.append(s)
 			else:
 				l_u.append(s)
-	
+
 	p=os.path.join(os.getcwd(),name+'-repo.md')
 	open(p,'wb')
-	f=open(p,'ab')
 
 	l=['## My Repositorys',]
 	l+=['### To Do',]+l_u
 	l+=['### Archived',]+l_archive
 	l+=['### Fork',]+l_fork
+
 	for i in l:
-		f.write(i.encode('utf8')+b'\n\n')
+		open(p,'ab').write(i.encode('utf8')+b'\n\n')
 
 	return len(l_u),len(l_archive),len(l_fork),
 
@@ -108,10 +108,9 @@ def creep_star(name:str='userElaina')->tuple:
 	
 	p=os.path.join(os.getcwd(),name+'-star.md')
 	open(p,'wb')
-	f=open(p,'ab')
 
 	for i in ['## Starred Repositorys',]+l_star:
-		f.write(i.encode('utf8')+b'\n\n')
+		open(p,'ab').write(i.encode('utf8')+b'\n\n')
 
 	return len(l_star),
 
@@ -174,16 +173,15 @@ def creep_follow(name:str='userElaina')->tuple:
 
 	p=os.path.join(os.getcwd(),name+'-follow.md')
 	open(p,'wb')
-	f=open(p,'ab')
 
 	for i in l_follow:
 		for j in i:
-			f.write(j.encode('utf8')+b'\n')
+			open(p,'ab').write(j.encode('utf8')+b'\n')
 
 	return len(l_follow),
 
-pool=[23301+(i<<1) for i in range(10)]
-_port=pool[0]
+pool={23301+(i<<1) for i in range(10)}
+_port=rd(pool)
 print(creep_repo())
 print(creep_star())
 print(creep_follow())
